@@ -1,97 +1,146 @@
-# Booking Service
+# 🏨 Booking Service Frontend
 
-A modern booking application built with React, TypeScript, and Vite.
+A modern, responsive booking platform built with React, TypeScript, and Vite. This frontend application provides a seamless user experience for browsing, searching, and booking various services.
 
-## Features
 
-- Fast development with HMR (Hot Module Replacement)
-- TypeScript support
-- Modern ESLint configuration
+## ✨ Features
 
-## Getting Started
+- 🔍 Service search and filtering
+- 📅 Interactive booking calendar
+- 🔄 Real-time availability checking
+- 📱 Fully responsive design
+- 🚀 Blazing fast performance with Vite
+- 🛠 TypeScript for type safety
+- 🎨 Modern UI with Emotion for styling
+- 🔒 Authentication and authorization
+- 📍 Location-based services
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (version 16 or higher)
-- npm or yarn
+- Node.js (version 18 or higher)
+- npm (version 9 or higher) or yarn (version 1.22 or higher)
+- Git
 
 ### Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/booking-service.git
-cd booking-service
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/NguyenVanGiang060202/booking-service-front-end.git
+   cd booking-service-front-end
+   ```
 
-# Install dependencies
-npm install
-# or
-yarn install
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env` file in the root directory with the following variables:
+   ```env
+   ```
+
+### Available Scripts
+
+- **Development server**
+  ```bash
+  npm run dev
+  # or
+  yarn dev
+  ```
+  Runs the app in development mode. Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+
+- **Production build**
+  ```bash
+  npm run build
+  # or
+  yarn build
+  ```
+  Builds the app for production to the `dist` folder.
+
+- **Preview production build**
+  ```bash
+  npm run preview
+  # or
+  yarn preview
+  ```
+  Locally preview the production build.
+
+- **Linting**
+  ```bash
+  npm run lint
+  # or
+  yarn lint
+  ```
+  Runs ESLint to check code quality.
+
+## 🏗 Project Structure
+
+```
+src/
+├── assets/           # Static assets like images, fonts
+├── components/       # Reusable UI components
+│   ├── common/       # Common components (buttons, inputs, etc.)
+│   ├── layout/       # Layout components (header, footer, etc.)
+│   └── ui/           # UI components library
+├── context/          # React context providers
+├── hooks/            # Custom React hooks
+├── pages/            # Page components
+├── services/         # API service layer
+└── styles/           # Global styles and themes
 ```
 
-### Development
+## 🛠 Development
 
-```bash
-# Start development server
-npm run dev
-# or
-yarn dev
-```
+### Code Style
 
-### Production Build
+- We use ESLint and Prettier for code formatting
+- Follow the Airbnb JavaScript/TypeScript style guide
+- Write meaningful commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
 
-```bash
-# Build for production
-npm run build
-# or
-yarn build
-```
+### Git Workflow
 
-## Vite Plugins
+1. Create a new branch for your feature or bugfix:
+   ```bash
+   git checkout -b feature/your-feature-name
+   # or
+   git checkout -b fix/issue-description
+   ```
 
-Two official React plugins are available:
+2. Commit your changes with a descriptive message:
+   ```bash
+   git commit -m "feat: add user authentication"
+   ```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+3. Push your branch and create a pull request
 
-## ESLint Configuration
+## 📦 Dependencies
 
-### Type-Aware Linting
+- React 18
+- TypeScript 5
+- Vite 4
+- React Router 6
+- Emotion (for styling)
+- Axios (for API requests)
+- React Query (for data fetching)
+- React Hook Form (for forms)
+- Date-fns (for date manipulation)
 
-For production applications, enable type-aware lint rules:
+## 🤝 Contributing
 
-```js
-export default tseslint.config({
-  extends: [
-    ...tseslint.configs.recommendedTypeChecked,
-    // For stricter rules: ...tseslint.configs.strictTypeChecked
-    // For stylistic rules: ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
 
-### React-Specific Linting
+## 📄 License
 
-Add React-specific lint rules with these plugins:
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📞 Contact
 
-export default tseslint.config({
-  plugins: {
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+For any questions or feedback, please open an issue or contact the maintainers.
+
+---
+
+Built with ❤️ by [Your Team Name]
