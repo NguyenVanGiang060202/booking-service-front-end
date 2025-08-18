@@ -3,6 +3,10 @@
 A modern, responsive booking platform built with React, TypeScript, and Vite. This frontend application provides a seamless user experience for browsing, searching, and booking various services.
 
 
+## Preview
+<img src="./public/preview.gif" width="600" />
+
+
 ## ✨ Features
 
 - 🔍 Service search and filtering
