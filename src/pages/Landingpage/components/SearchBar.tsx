@@ -42,12 +42,12 @@ export default function SearchBar() {
     }, [search]);
     return (
         <>
-            <div className="bg-white p-4 rounded-xl md:h-20 w-full h-full">
-                <form className="w-full h-full flex justify-center items-center">
-                    <div className="w-full h-full flex justify-center items-center md:flex-row flex-col space-y-4 md:space-y-0 md:space-x-4">
-                        <div className="w-full h-full flex justify-center items-center space-x-4">
-                            <div className="relative h-full w-2/3">
-                                <Search className="absolute left-4 top-1/2 -translate-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="p-4 w-full h-full bg-white rounded-xl md:h-20">
+                <form className="flex justify-center items-center w-full h-full">
+                    <div className="flex flex-col justify-center items-center space-y-4 w-full h-full md:flex-row md:space-y-0 md:space-x-4">
+                        <div className="flex justify-center items-center space-x-4 w-full h-full">
+                            <div className="relative w-2/3 h-full">
+                                <Search className="absolute left-4 top-1/2 w-4 h-4 -translate-1/2 text-muted-foreground" />
                                 <Input value={search}
                                     onChange={(e) => {
                                         setOpen(e.target.value.length > 0);
@@ -62,7 +62,7 @@ export default function SearchBar() {
                                 {open && results.length > 0 && (
                                     <DropdownMenu open={open} onOpenChange={setOpen} >
                                         <DropdownMenuTrigger className="absolute inset-0" />
-                                        <DropdownMenuContent className="lg:w-[720px] lg:h-120 md:w-[280px] md:h-80 w-[180px] h-60 overflow-y-auto">
+                                        <DropdownMenuContent className="overflow-y-auto h-60 lg:w-[720px] lg:h-120 md:w-[280px] md:h-80 w-[180px]">
                                             <DropdownMenuLabel>Search Results</DropdownMenuLabel>
                                             {results.map((result, index) => (
                                                 <DropdownMenuItem key={index} className="cursor-pointer">
@@ -75,11 +75,11 @@ export default function SearchBar() {
                                     </DropdownMenu>
                                 )}
                             </div>
-                            <div className="lg:h-full lg:w-1/3 h-full ">
+                            <div className="h-full lg:h-full lg:w-1/3">
                                 <SearchSalon />
                             </div>
                         </div>
-                        <Button className="md:h-full md:w-1/6 h-full w-full  bg-teal-800" type="submit">Search</Button>
+                        <Button className="w-full h-full bg-teal-800 md:h-full md:w-1/6" type="submit">Search</Button>
                     </div>
                 </form>
             </div>

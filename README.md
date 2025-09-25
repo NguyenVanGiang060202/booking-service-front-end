@@ -146,5 +146,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For any questions or feedback, please open an issue or contact the maintainers.
 
 ---
-
-Built with ❤️ by [Your Team Name]

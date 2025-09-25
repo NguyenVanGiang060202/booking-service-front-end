@@ -41,8 +41,8 @@ export default function () {
                             <img src="/img/hair_factory.jpg" className="lg:size-20 size-16 object-cover aspect-square rounded-2xl"></img>
                             <div className="flex justify-center items-start flex-col">
                                 <div className="flex justify-center items-center">
-                                    {Array.from({ length: 5 }).map(() => (
-                                        <Star fill="orange" color="orange" />
+                                    {Array.from({ length: 5 }).map((_, index) => (
+                                        <Star key={index} fill="orange" color="orange" />
                                     ))}
                                 </div>
                                 <span className="font-bold">Beauty studio</span>
@@ -64,8 +64,8 @@ export default function () {
                             <img src="/img/nail_studio.jpg" className="lg:size-20 size-16 object-cover aspect-square rounded-2xl"></img>
                             <div className="flex justify-center items-start flex-col">
                                 <div className="flex justify-center items-center">
-                                    {Array.from({ length: 5 }).map(() => (
-                                        <Star fill="orange" color="orange" />
+                                    {Array.from({ length: 5 }).map((_, index) => (
+                                        <Star key={index} fill="orange" color="orange" />
                                     ))}
                                 </div>
                                 <span className="font-bold">Hair Factory</span>

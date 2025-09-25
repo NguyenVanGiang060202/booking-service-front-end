@@ -76,8 +76,8 @@ export default function CarouselReviews() {
                                             <div className="flex space-x-8 w-full h-fit">
                                                 <div className="h-full w-full flex flex-col justify-around items-start space-y-2 rounded-2xl">
                                                     <div className="flex justify-center items-center md:space-x-2 space-x-1">
-                                                        {Array.from({ length: 5 }).map(() => (
-                                                            <Star fill="orange" color="orange" className="xl:size-6 lg:size-4 size-3 " />
+                                                        {Array.from({ length: 5 }).map((_, index) => (
+                                                            <Star key={index} fill="orange" color="orange" className="xl:size-6 lg:size-4 size-3 " />
                                                         ))}
                                                     </div>
                                                     <h5 className="font-bold text-lg">Best service!</h5>

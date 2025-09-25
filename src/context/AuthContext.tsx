@@ -1,12 +1,23 @@
-import { loginApi, refreshTokenApi, signupApi } from '@/services/authApi';
+import { getInfoUserApi, loginApi, refreshTokenApi, signupApi } from '@/services/authApi';
 import { createContext, useState, useEffect, type ReactNode } from 'react';
 
+type User = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    age: number;
+    email: string;
+    phone: string;
+    image: string;
+}
 
 type AuthContextType = {
     accessToken: string | null;
-    login: (username: string, password: string) => Promise<void>;
+    user: User | null;
+    isLoading: boolean,
+    login: (username: string, password: string, rememberMe: boolean) => Promise<void>;
     signup?: (username: string, password: string, email?: string) => Promise<void>;
-    getInfoUserApi?: (accessToken: string) => Promise<any>;
+    getInfoUser?: (accessToken: string) => Promise<any>;
     getCategoryPopularApi?: (accessToken: string) => Promise<any>;
     getBusinessPopularApi?: (accessToken: string) => Promise<any>;
     getIndividualsPopularApi?: (accessToken: string) => Promise<any>;
@@ -17,13 +28,43 @@ type AuthContextType = {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem("accessToken") || null);
+    const [user, setUser] = useState<User | null>(localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || "") : null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
-    const login = async (email: string, password: string) => {
-        const {status, message, data } = await loginApi(email, password);
-        setAccessToken(data.token);
-        sessionStorage.setItem('accessToken', data.token);
+
+    const login = async (username: string, password: string, rememberMe: boolean) => {
+        try {
+            setIsLoading(true);
+            const res = await loginApi(username, password); // res: { accessToken, refreshToken, ... }
+            if (res?.accessToken) {
+                const {accessToken, refreshToken, ...userInfo} = res;
+                if (rememberMe) {
+                    setAccessToken(accessToken);
+                    setUser({...userInfo});
+                    localStorage.setItem("accessToken", accessToken);
+                    localStorage.setItem("refreshToken", refreshToken);
+                    localStorage.setItem("userInfo", JSON.stringify({...userInfo}));
+                } else {
+                    setAccessToken(accessToken);
+                    setUser({...userInfo});
+                    sessionStorage.setItem("accessToken", accessToken);
+                    sessionStorage.setItem("refreshToken", refreshToken);
+                    sessionStorage.setItem("userInfo", JSON.stringify({...userInfo}));
+                }
+
+                // const userInfo = await getInfoUser(res.accessToken, rememberMe);
+            } else {
+                // Nếu API trả về mà không có accessToken → coi như lỗi
+                throw new Error(res?.message || "Đăng nhập thất bại");
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+        finally{
+            setIsLoading(false);
+        }
     };
 
     const signup = async (username: string, password: string, email: string) => {
@@ -34,39 +75,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const logout = () => {
         setAccessToken(null);
-        sessionStorage.removeItem('refreshToken');
-
+        setUser(null);
+        localStorage.clear();
+        sessionStorage.clear();
     };
 
-    const getInfoUserApi = async (accessToken: string) => {
-        const {status, message, data} = await getInfoUserApi(accessToken);
-        sessionStorage.setItem('userInfo', JSON.stringify(data.user));
-        return {status, message, data};
+    const getInfoUser = async (accessToken: string) => {
+        try {
+            const data = await getInfoUserApi(accessToken);
+            if (data) {
+                return data
+            } else {
+                // Nếu API trả về mà không có accessToken → coi như lỗi
+                throw new Error("Đăng nhập thất bại");
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
     }
 
     const getCategoriesPopularApi = async (page: number, limit: number, skip: number, accessToken: string) => {
         const { status, message, data } = await getCategoriesPopularApi(page, limit, skip, accessToken);
-        return {status, message, data};
+        return { status, message, data };
     }
 
     const getBusinessPopularApi = async (accessToken: string) => {
         const { status, message, data } = await getBusinessPopularApi(accessToken);
-        return {status, message, data};
+        return { status, message, data };
     }
 
     const getIndividualsPopularApi = async (accessToken: string) => {
         const { status, message, data } = await getIndividualsPopularApi(accessToken);
-        return {status, message, data};
+        return { status, message, data };
     }
 
     const getServicePopularApi = async (accessToken: string) => {
         const { status, message, result } = await getServicePopularApi(accessToken);
-        return {status, message, result};
+        return { status, message, result };
     }
 
     const searchApi = async (query: string, accessToken: string) => {
         const { status, message, result } = await searchApi(query, accessToken);
-        return {status, message, result};
+        return { status, message, result };
     }
 
     const refresh = async () => {
@@ -81,12 +131,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    useEffect(() => {
-        refresh(); // làm mới token khi load app
-    }, []);
 
     return (
-        <AuthContext.Provider value={{ accessToken, login, logout }}>
+        <AuthContext.Provider value={{ accessToken, user, isLoading, login, logout, getInfoUser }}>
             {children}
         </AuthContext.Provider>
     );

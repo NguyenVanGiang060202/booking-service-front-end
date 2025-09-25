@@ -1,14 +1,25 @@
-const API_URL = 'https://booking-service-api-u7eg.onrender.com/api';
+import api from "@/axiosClient";
 
-export const loginApi = async (email: string, password: string) => {
-    const res = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error('Login failed');
-    return data; // { accessToken, refreshToken }
+const API_URL = 'https://dummyjson.com';
+
+
+export const loginApi = async (username: string, password: string) => {
+    try {
+        const res = await api.post(`${API_URL}/auth/login`, {
+            username,
+            password,
+        });
+
+        return res.data;
+    } catch (err: any) {
+        let errorMsg = "Login failed";
+
+        if (err.response?.data?.message) {
+            errorMsg = err.response.data.message;
+        }
+
+        throw new Error(errorMsg);
+    }
 };
 
 export const signupApi = async (
@@ -27,16 +38,25 @@ export const signupApi = async (
 };
 
 export const getInfoUserApi = async (accessToken: string) => {
-    const res = await fetch(`${API_URL}/users/profile`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
+    try {
+        const res = await api.get(`${API_URL}/auth/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        // axios tự parse JSON -> { id, username, email, image }
+        return res.data;
+    } catch (err: any) {
+        let errorMsg = "Login failed";
+
+        if (err.response?.data?.message) {
+            errorMsg = err.response.data.message;
         }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error('Get user info failed');
-    return data; // { id, username, email, image }
+
+        throw new Error(errorMsg);
+    }
 };
 export const refreshTokenApi = async (refreshToken: string) => {
     const res = await fetch(`${API_URL}/auth/refresh`, {
@@ -50,72 +70,76 @@ export const refreshTokenApi = async (refreshToken: string) => {
 };
 
 export const getCategoriesPopularApi = async (page: number, limit: number, skip: number, accessToken: string) => {
-    const queryParams = new URLSearchParams({
-        page: String(page),
-        limit: String(limit),
-        skip: String(skip),
-    });
-    const res = await fetch(`${API_URL}/categories/popular?${queryParams.toString()}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error('Get popular categories failed');
-    return data; // { categories: Array<Category> }
+    // const queryParams = new URLSearchParams({
+    //     page: String(page),
+    //     limit: String(limit),
+    //     skip: String(skip),
+    // });
+    // const res = await fetch(`${API_URL}/categories/popular?${queryParams.toString()}`, {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${accessToken}`
+    //     }
+    // });
+    // const data = await res.json();
+    // if (!res.ok) throw new Error('Get popular categories failed');
+    // return data; // { categories: Array<Category> }
+    return null
 }
 
 export const getBusinessPopular = async (accessToken: string) => {
-
-    const res = await fetch(`${API_URL}/business/popular-salons`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error('Get popular businesses failed');
-    return data; // { businesses: Array<Business> }
+    // const res = await fetch(`${API_URL}/business/popular-salons`, {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${accessToken}`
+    //     }
+    // });
+    // const data = await res.json();
+    // if (!res.ok) throw new Error('Get popular businesses failed');
+    // return data; // { businesses: Array<Business> }
+    return null
 }
 
 export const getIndividualsPopular = async (accessToken: string) => {
-    const res = await fetch(`${API_URL}/individuals/popular`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error('Get popular individuals failed');
-    return data; // { individuals: Array<Individual> }
+    // const res = await fetch(`${API_URL}/individuals/popular`, {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${accessToken}`
+    //     }
+    // });
+    // const data = await res.json();
+    // if (!res.ok) throw new Error('Get popular individuals failed');
+    // return data; // { individuals: Array<Individual> }
+    return null
 }
 
 export const getServicePopular = async (accessToken: string) => {
-    const res = await fetch(`${API_URL}/services/popular`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error('Get popular services failed');
-    return data; // { services: Array<Service> }
+    // const res = await fetch(`${API_URL}/services/popular`, {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${accessToken}`
+    //     }
+    // });
+    // const data = await res.json();
+    // if (!res.ok) throw new Error('Get popular services failed');
+    // return data; // { services: Array<Service> }
+    return null
 }
 
 export const searchApi = async (query: string, accessToken: string) => {
-    const res = await fetch(`${API_URL}/search?query=${query}}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error('Search failed');
-    return data; // { results: Array<SearchResult> }
+    // const res = await fetch(`${API_URL}/search?query=${query}}`, {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${accessToken}`
+    //     }
+    // });
+    // const data = await res.json();
+    // if (!res.ok) throw new Error('Search failed');
+    // return data; // { results: Array<SearchResult> }
+    return null
 }

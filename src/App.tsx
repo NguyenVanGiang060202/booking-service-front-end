@@ -1,32 +1,38 @@
 
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import './App.css'
-import Footer from './components/landingpage/Footer';
-import Header from './components/landingpage/Header';
-import Category from './pages/Landingpage/Category';
-import Herosection from './pages/Landingpage/Herosection'
-import HowItWork from './pages/Landingpage/HowItWork';
-import IntroduceMobile from './pages/Landingpage/IntroduceMobile';
-import IntroJoinBusiness from './pages/Landingpage/IntroJoinBusiness';
-import LandingReviews from './pages/Landingpage/LandingReviews';
-import PopularServices from './pages/Landingpage/PopularServices';
-import Recommends from './pages/Landingpage/Recommends';
+import UserInfo from './pages/User-Info/user-info';
+import LandingPage from './pages/LandingPage/LandingPage';
+import Dashboard from './pages/Dashboard/dashboard';
+import { useAuth } from './hooks/useAuth';
+import LoginPage from './pages/Auth/Login/LoginPage';
+import AnalysisDetail from './pages/AnalysisDetail/analysis-detail';
+
+const ProtectRoute = () => {
+	const {accessToken, user} = useAuth();
+	const isAuth = accessToken && user;
+	if (isAuth) {
+		return <Outlet />
+	}
+	return <Navigate to="/login" />
+}
 
 function App() {
 	return (
-		<>
-			<div className='w-dvw h-full overflow-x-hidden  flex justify-center items-center flex-col lg:p-10 overscroll-y-none overflow-hidden'>
-				<Header />
-				<Herosection />
-				<Category />
-				<Recommends />
-				<HowItWork />
-				<PopularServices />
-				<IntroJoinBusiness />
-				<LandingReviews />
-				<IntroduceMobile />
-				<Footer />
-			</div>
-		</>
+		<div className="">
+			<Routes>
+				<Route>
+					<Route path="/" element={<LandingPage />} />
+					<Route path="/login" element={<LoginPage />} />
+				</Route>
+				<Route element={<ProtectRoute />}>
+					<Route path='/dashboard' element={<Dashboard />} />
+					<Route path='/user-info' element={<UserInfo />} />
+					<Route path='/analysis-detail' element={<AnalysisDetail />} />
+				</Route>
+			</Routes>
+			
+		</div>
 	)
 }
 
